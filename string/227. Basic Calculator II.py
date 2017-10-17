@@ -4,8 +4,17 @@ class Solution(object):
         :type s: str
         :rtype: int
         """
-        operator = []
-        operatorNum = []
+        """
+        思路：将字符串处理为两个list，一个操作数列表，一个操作符列表，然后遍历操作符列表，
+        初始化一个list作为堆栈，根据运算优先级，做以下运算：
+            “+”：不做处理，直接将操作数放入堆栈；
+            “-”：将下一个操作数取相反数放入堆栈；
+            “*”：取栈顶元素与下一个操作数做乘法，将结果放入堆栈；
+            “/”：取栈顶元素与下一个操作数做除法，将结果放入堆栈（注意，若栈顶元素为负值，应先转变为整数做除法，对结果取相反数）；
+        最后将堆栈元素求和即为结果
+        """
+        operator = []               # 操作符
+        operatorNum = []            # 操作数
         s = s.replace(" ", "")
         lenth = len(s)
         start = 0
@@ -15,31 +24,23 @@ class Solution(object):
                 operator.append(s[i])
                 start = i + 1
         operatorNum.append(int(s[start:]))
+        res = [operatorNum[0]]
         for i in range(len(operator)):
             if operator[i] == "*":
-                temp = operatorNum[i] * operatorNum[i + 1]
-                operator[i] = "*"
-                operatorNum[i] = temp
-                operatorNum[i + 1] = 1
+                temp = res.pop() * operatorNum[i + 1]
             if operator[i] == "/":
-                temp = operatorNum[i] // operatorNum[i + 1]
-                operator[i] = "*"
-                operatorNum[i + 1] = temp
-                operatorNum[i] = 1
-        res = operatorNum[0]
-        for i in range(len(operator)):
-            if operator[i] == "*" and operatorNum[i] == 1:
-                operator[i]="+"
-                operatorNum[i]=0
-        for i in range(len(operator)):
-            if operator[i] == "+":
-                res += operatorNum[i+1]
+                j = res.pop()
+                if j < 0:
+                    temp = -(abs(j) // operatorNum[i + 1])
+                else:
+                    temp = j // operatorNum[i + 1]
             if operator[i] == "-":
-                res -= operatorNum[i + 1]
-            if operator[i] == "*":
-                res *= operatorNum[i+1]
-        return str(operator)+str(operatorNum)
-        # return res
+                temp = -operatorNum[i + 1]
+            if operator[i] == "+":
+                temp = operatorNum[i + 1]
+            res.append(temp)
+        return sum(res)
+
 
 s=Solution()
 print(s.calculate(" 3+5 / 2 "))
