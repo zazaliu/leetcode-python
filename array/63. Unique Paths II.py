@@ -4,6 +4,7 @@ class Solution(object):
         :type obstacleGrid: List[List[int]]
         :rtype: int
         """
+        """Problem62中DP solution修改即可"""
         width,depth=len(obstacleGrid[0]),len(obstacleGrid)
         if obstacleGrid[0][0] or obstacleGrid[-1][-1] == 1:return 0
         res=obstacleGrid
