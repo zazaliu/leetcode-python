@@ -5,6 +5,9 @@ class Solution(object):
         :type target: int
         :rtype: bool
         """
+        """
+        先确定行数，然后二分查找
+        """
         if matrix == [] or matrix == [[]]:return False
         if target > matrix[-1][-1] or target < matrix[0][0]:
             return False
