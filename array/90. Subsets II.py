@@ -8,7 +8,7 @@ class Solution(object):
         for i in range(len(nums)):
             for j in range(len(res)):
                 temp = res[j] + [nums[i]]
-                # res.append(temp)
+                temp.sort()
                 if temp not in res:
                     res.append(temp)
         return res
