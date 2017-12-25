@@ -15,3 +15,15 @@ class Solution(object):
                 left=mid
             if left+1 == right or left == right:
                 return min(nums[left],nums[right])
+
+    # 方法2
+    def findMin1(self, num):
+        L = 0;
+        R = len(num) - 1
+        while L < R and num[L] > num[R]:
+            M = (L + R) / 2
+            if num[M] < num[R]:
+                R = M
+            else:
+                L = M + 1
+        return num[L]
